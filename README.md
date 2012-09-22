@@ -1,10 +1,10 @@
 Strange Machines
 ===============
 
-Strangemachines is a Java library for working with statemachines. Statemachines can
-be useful when working with asyncronous events, parsing or games.
+Strange Machines is a Java library for working with state machines. State machines can
+be useful when working with asynchronous events, parsing or games.
 
-The statemachine implementation in this library is based on Java Enums that represents
+The state machine implementation in this library is based on Java Enums that represents
 each state. Each state can have an implementation that is triggered when the state
 is entered. It is also possible to have transition guards that can prevent a transition
 between two states.
@@ -23,7 +23,7 @@ The project is built with maven so the following is used to invoke a build with 
 
 Demos
 -----
-There are demos included showing you how the statemachine can be used. You can use maven
+There are demos included showing you how the state machine can be used. You can use maven
 to run the demos like this:
 
     $ mvn -Dexec.mainClass=com.scalebit.strangemachines.demos.login.LoginDemo exec:java
