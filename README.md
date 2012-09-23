@@ -67,6 +67,7 @@ as anonymous inner classes.
         StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
 
 The above program will also produce the following grapghviz diagram:
+
 ![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/hello_world.png)
 
 ## Current State
