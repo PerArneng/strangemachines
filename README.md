@@ -1,7 +1,6 @@
-<p align="center">
-  <h1>Strange Machines</h1>
-  <img src="https://raw.github.com/PerArneng/strangemachines/master/docs/images/strangemachine.png" alt="A Strange Machine"/>
-</p>
+# Strange Machines
+
+![A Strange Machine](https://raw.github.com/PerArneng/strangemachines/master/docs/images/strangemachine.png)
 
 **Table Of Contents**
 * [About](https://github.com/PerArneng/strangemachines#about)
