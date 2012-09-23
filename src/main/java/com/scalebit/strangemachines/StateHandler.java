@@ -22,6 +22,6 @@ package com.scalebit.strangemachines;
 
 public interface StateHandler<E extends Enum<E>> {
 
-    void onEnter(StateMachine<E> stateMachine, E sourceState);
+    void onEnter(StateMachine<E> stateMachine, E sourceStateKey, E targetStateKey);
 
 }

@@ -23,7 +23,7 @@ package com.scalebit.strangemachines;
 public class TransitionException extends RuntimeException {
 
     public TransitionException(Enum source, Enum target, String message) {
-        super("Can not transition from " + source.name() + " to " + target.name() + ": " + message);
+        super("Can not transition from " + source + " to " + target + ": " + message);
     }
 
 }

@@ -22,6 +22,6 @@ package com.scalebit.strangemachines;
 
 public interface TransitionGuard<E extends Enum<E>> {
 
-    boolean transitionValid(E source, E target);
+    GuardResponse requestClearance(StateMachine<E> stateMachine, E source, E target);
 
 }

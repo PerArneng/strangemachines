@@ -41,10 +41,14 @@ public interface StateMachine<E extends Enum<E>> {
 
     void setStateHandler(E stateKey, StateHandler<E> stateHandler);
 
-    void addTransition(E sourceStateKey, E targetStateKey, TransitionGuard<E>... guards);
+    void addTransition(E sourceStateKey, E targetStateKey);
+
+    void addTransitionWithGuards(E sourceStateKey, E targetStateKey, TransitionGuard<E>... guards);
 
     void transition(E targetStateKey);
 
-    Set<State<E>> inspect();
+    Set<State<E>> getAllStates();
+
+    State<E> getStateFromKey(E stateKey);
 
 }

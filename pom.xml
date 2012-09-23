@@ -34,7 +34,7 @@
     </build>
 
     <!-- More Project Information -->
-    <name>Greate State Machine</name>
+    <name>Strange Machines</name>
     <description>A statemachine written in java</description>
     <url>https://github.com/PerArneng/strangemachines</url>
     <inceptionYear>2012</inceptionYear>

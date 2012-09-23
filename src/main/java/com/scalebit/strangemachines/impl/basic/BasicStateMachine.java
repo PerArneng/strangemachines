@@ -79,7 +79,17 @@ public class BasicStateMachine<E extends Enum<E>> implements StateMachine<E> {
     }
 
     @Override
-    public void addTransition(E sourceStateKey, E targetStateKey, TransitionGuard<E>... guards) {
+    public void addTransition(E sourceStateKey, E targetStateKey) {
+        this.addTransitionInternal(sourceStateKey, targetStateKey, new ArrayList<TransitionGuard<E>>());
+    }
+
+
+    @Override
+    public void addTransitionWithGuards(E sourceStateKey, E targetStateKey, TransitionGuard<E>... guards) {
+        this.addTransitionInternal(sourceStateKey, targetStateKey, Arrays.asList(guards));
+    }
+
+    private void addTransitionInternal(E sourceStateKey, E targetStateKey, List<TransitionGuard<E>> guards) {
 
         if (guards == null) {
             throw new IllegalArgumentException("guards can not be null");
@@ -88,7 +98,7 @@ public class BasicStateMachine<E extends Enum<E>> implements StateMachine<E> {
         BasicState<E> sourceState = (BasicState<E>) this.getStateFromKey(sourceStateKey);
         State<E> targetState = this.getStateFromKey(targetStateKey);
 
-        Transition<E> transition = new BasicTransition<E>(sourceState, targetState, Arrays.asList(guards));
+        Transition<E> transition = new BasicTransition<E>(sourceState, targetState, guards);
         sourceState.putTransition(targetState, transition);
     }
 
@@ -109,23 +119,31 @@ public class BasicStateMachine<E extends Enum<E>> implements StateMachine<E> {
                // execute the state handler if it has one
                this.currentState = this.startState;
                if (this.startState.hasStateHandler()) {
-                   this.startState.getStateHandler().onEnter(this, null);
+                   this.startState.getStateHandler().onEnter(this, null, this.startState.getStateKey());
                }
             }
 
         } else {
-            Transition<E> transition = ((BasicState) this.currentState).getTransition(targetState);
+            Transition<E> transition = ((BasicState<E>) this.currentState).getTransition(targetState);
             this.ensureGuardsAllowTransition(transition);
 
             State<E> sourceState = this.currentState;
             this.currentState = targetState;
             if (targetState.hasStateHandler()) {
-                targetState.getStateHandler().onEnter(this, sourceState.getStateKey());
+                targetState.getStateHandler().onEnter(this, sourceState.getStateKey(), targetState.getStateKey());
             }
         }
     }
 
-    private State<E> getStateFromKey(E stateKey) {
+    @Override
+    public Set<State<E>> getAllStates() {
+        return new HashSet<State<E>>(this.states.values());
+    }
+
+
+
+    @Override
+    public State<E> getStateFromKey(E stateKey) {
         if (stateKey == null) {
             throw new IllegalArgumentException("stateKey can not be null");
         }
@@ -139,17 +157,15 @@ public class BasicStateMachine<E extends Enum<E>> implements StateMachine<E> {
         return state;
     }
 
-    @Override
-    public Set<State<E>> inspect() {
-        return new HashSet<State<E>>(this.states.values());
-    }
-
     private void ensureGuardsAllowTransition(Transition<E> transition) {
         List<TransitionGuard<E>> transitionGuards = transition.getGuards();
         for (TransitionGuard guard : transitionGuards) {
-            if (!guard.transitionValid(transition.getSource().getStateKey(), transition.getTarget().getStateKey())) {
+            GuardResponse response = guard.requestClearance(this, transition.getSource().getStateKey(),
+                    transition.getTarget().getStateKey());
+            if (response.hasStatus(GuardResponseStatus.DENIED)) {
                 throw new TransitionException(currentState.getStateKey(), transition.getTarget().getStateKey(),
-                                                "The guard " + guard + " prevented it");
+                                                "A guard denied the transition with the message: " +
+                                                response.getMessage());
             }
         }
     }

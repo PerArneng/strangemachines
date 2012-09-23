@@ -33,13 +33,13 @@ public class StateMachineTest {
        final StateMachine<Test1Enum> sm = StateMachineFactory.createDefault(Test1Enum.class);
        sm.addState(Test1Enum.STATE1, new StateHandler<Test1Enum>() {
            @Override
-           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState) {
+           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState, Test1Enum targetState) {
 
            }
        });
        sm.addState(Test1Enum.STATE2, new StateHandler<Test1Enum>() {
            @Override
-           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState) {
+           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState, Test1Enum targetState) {
                sm.transition(Test1Enum.STATE1);
            }
        });
