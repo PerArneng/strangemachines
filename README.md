@@ -8,6 +8,51 @@ each state. Each state can have an implementation that is triggered when the sta
 is entered. It is also possible to have transition guards that can prevent a transition
 between two states.
 
+## Examples
+
+### Hello World
+The following example makes "Hello, World!" look very massive. But the % of boilerplate
+code will be less in larger programs. You would probably not implement your state handlers
+as anonymous inner classes.
+
+        // create the statemachine and incidate that you want to
+        // use HelloWorldState enum as state keys
+        StateMachine<HelloWorldState> sm =
+                  StateMachineFactory.createDefault(HelloWorldState.class);
+
+        // add the hello state with a handler
+        sm.addState(HelloWorldState.HELLO, new StateHandler<HelloWorldState>() {
+            public void onEnter(StateMachine<HelloWorldState> stateMachine,
+                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                System.out.print("Hello, ");
+
+                // make the state machine transition to the world state
+                stateMachine.transition(HelloWorldState.WORLD);
+            }
+        });
+
+        // add the second world state
+        sm.addState(HelloWorldState.WORLD, new StateHandler<HelloWorldState>() {
+            public void onEnter(StateMachine<HelloWorldState> stateMachine,
+                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                System.out.println("World!");
+            }
+        });
+
+        // add a transition between HELLO and WORLD
+        sm.addTransition(HelloWorldState.HELLO, HelloWorldState.WORLD);
+
+        // start by transitioning to HELLO, HELLO is set as the start
+        // state since it was added first. It is possible to set other
+        // start states afterwards. Any illegal transitions will cause
+        // a TransitionException to be thrown
+        sm.transition(HelloWorldState.HELLO);
+
+        // this will print Hello, World! in to the shell/console/dosprompt
+
+        // and finaly print out the state machine as graphviz format
+        StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
+
 ## Current State
 
 This project is under development so it is not stable enough for production use. There
