@@ -1,3 +1,11 @@
+**Table Of Contents**
+* [Interesting Features](https://github.com/PerArneng/strangemachines#interesting-features)
+* [Examples](https://github.com/PerArneng/strangemachines#examples)
+* [Building](https://github.com/PerArneng/strangemachines#building)
+* [Demos](https://github.com/PerArneng/strangemachines#demos)
+* [Author(s)](https://github.com/PerArneng/strangemachines#authors)
+* [License](https://github.com/PerArneng/strangemachines#license)
+
 # Strange Machines
 
 Strange Machines is a Java library for working with state machines. State machines can
