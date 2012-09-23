@@ -15,7 +15,10 @@
 ## About
 
 Strange Machines is a Java library for working with state machines. State machines can
-be useful when working with asynchronous events, parsing or games.
+be useful when working with asynchronous events, parsing or games. The purpose of the
+state machine in this library is the define rules of which states and transitions that
+are valid and then make sure that a program that uses the state machine follows theese
+rules.
 
 The state machine implementation in this library is based on Java Enums that represents
 each state. Each state can have an implementation that is triggered when the state
