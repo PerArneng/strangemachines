@@ -1,5 +1,7 @@
 # Strange Machines
 
+![A Strange Machine](https://raw.github.com/PerArneng/strangemachines/master/docs/images/strangemachine.png)
+
 **Table Of Contents**
 * [About](https://github.com/PerArneng/strangemachines#about)
 * [Interesting Features](https://github.com/PerArneng/strangemachines#interesting-features)
