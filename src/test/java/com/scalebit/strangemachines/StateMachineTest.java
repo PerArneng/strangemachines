@@ -20,8 +20,7 @@
    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 package com.scalebit.strangemachines;
 
-import com.scalebit.strangemachines.export.ExportFormat;
-import com.scalebit.strangemachines.export.StateMachineExport;
+import junit.framework.Assert;
 import org.junit.Test;
 
 public class StateMachineTest {
@@ -54,10 +53,12 @@ public class StateMachineTest {
 
    }
 
-    enum HelloWorldState { HELLO, WORLD};
+    enum HelloWorldState { HELLO, WORLD }
 
     @Test
     public void test2HelloWorld() {
+
+        final StringBuilder stringBuilder = new StringBuilder();
 
         // create the statemachine and incidate that you want to
         // use HelloWorldState enum as state keys
@@ -68,7 +69,7 @@ public class StateMachineTest {
         sm.addState(HelloWorldState.HELLO, new StateHandler<HelloWorldState>() {
             public void onEnter(StateMachine<HelloWorldState> stateMachine,
                                     HelloWorldState sourceStateKey, HelloWorldState currentStateKey) {
-                System.out.print("Hello, ");
+                stringBuilder.append("Hello, ");
 
                 // make the state machine transition to the world state
                 stateMachine.transition(HelloWorldState.WORLD);
@@ -79,7 +80,7 @@ public class StateMachineTest {
         sm.addState(HelloWorldState.WORLD, new StateHandler<HelloWorldState>() {
             public void onEnter(StateMachine<HelloWorldState> stateMachine,
                                     HelloWorldState sourceStateKey, HelloWorldState currentStateKey) {
-                System.out.println("World!");
+                stringBuilder.append("World!");
             }
         });
 
@@ -92,10 +93,10 @@ public class StateMachineTest {
         // a TransitionException to be thrown
         sm.transition(HelloWorldState.HELLO);
 
-        // this will print Hello, World! in to the shell/console/dosprompt
+        Assert.assertEquals("Hello, World!", stringBuilder.toString());
 
         // and finaly print out the state machine as graphviz format
-        StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
+        // StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
 
     }
 }
