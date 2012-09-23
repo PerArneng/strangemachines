@@ -83,7 +83,7 @@ public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
     private StateHandler<LoginState> ioError = new StateHandler<LoginState>() {
 
         @Override
-        public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
+        public void onEnter(StateMachine<LoginState> stateMachine, LoginState sourceStateKey, LoginState currentStateKey) {
             System.out.println("an export error occurred");
             sm.transition(LoginState.END_STATE);
         }
@@ -93,7 +93,7 @@ public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
     private StateHandler<LoginState> endState = new StateHandler<LoginState>() {
 
         @Override
-        public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
+        public void onEnter(StateMachine<LoginState> stateMachine, LoginState sourceStateKey, LoginState currentStateKey) {
             console.stop();
         }
 
@@ -102,7 +102,7 @@ public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
     private StateHandler<LoginState> askForUsername = new StateHandler<LoginState>() {
 
         @Override
-        public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
+        public void onEnter(StateMachine<LoginState> stateMachine, LoginState sourceStateKey, LoginState currentStateKey) {
             System.out.println("Login To Wonderland (u/p: alice/grow)");
             System.out.print("username: ");
             console.requestLine();
@@ -113,7 +113,7 @@ public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
     private StateHandler<LoginState> invalidUsername = new StateHandler<LoginState>() {
 
         @Override
-        public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
+        public void onEnter(StateMachine<LoginState> stateMachine, LoginState sourceStateKey, LoginState currentStateKey) {
             System.out.println("username must be atleast 1 char ");
             sm.transition(LoginState.ASK_FOR_USERNAME);
         }
@@ -123,7 +123,7 @@ public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
     private StateHandler<LoginState> askForPassword = new StateHandler<LoginState>() {
 
         @Override
-        public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
+        public void onEnter(StateMachine<LoginState> stateMachine, LoginState sourceStateKey, LoginState currentStateKey) {
             System.out.print("password: ");
             console.requestPassword();
         }

@@ -35,13 +35,13 @@ public class StateMachineTest {
        final StateMachine<Test1Enum> sm = StateMachineFactory.createDefault(Test1Enum.class);
        sm.addState(Test1Enum.STATE1, new StateHandler<Test1Enum>() {
            @Override
-           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState, Test1Enum targetState) {
+           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceStateKey, Test1Enum currentStateKey) {
 
            }
        });
        sm.addState(Test1Enum.STATE2, new StateHandler<Test1Enum>() {
            @Override
-           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceState, Test1Enum targetState) {
+           public void onEnter(StateMachine<Test1Enum> stateMachine, Test1Enum sourceStateKey, Test1Enum currentStateKey) {
                sm.transition(Test1Enum.STATE1);
            }
        });
@@ -67,7 +67,7 @@ public class StateMachineTest {
         // add the hello state with a handler
         sm.addState(HelloWorldState.HELLO, new StateHandler<HelloWorldState>() {
             public void onEnter(StateMachine<HelloWorldState> stateMachine,
-                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                                    HelloWorldState sourceStateKey, HelloWorldState currentStateKey) {
                 System.out.print("Hello, ");
 
                 // make the state machine transition to the world state
@@ -78,7 +78,7 @@ public class StateMachineTest {
         // add the second world state
         sm.addState(HelloWorldState.WORLD, new StateHandler<HelloWorldState>() {
             public void onEnter(StateMachine<HelloWorldState> stateMachine,
-                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                                    HelloWorldState sourceStateKey, HelloWorldState currentStateKey) {
                 System.out.println("World!");
             }
         });
