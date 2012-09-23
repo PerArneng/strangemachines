@@ -110,7 +110,9 @@ The project is built with maven so the following is used to invoke a build with 
 There are demos included showing you how the state machine can be used. You can use maven
 to run the demos like this:
 
-    $ mvn -Dexec.mainClass=com.scalebit.strangemachines.demos.login.LoginDemo exec:java
+```bash
+$ mvn -Dexec.mainClass=com.scalebit.strangemachines.demos.login.LoginDemo exec:java
+```
 
 ## Author(s)
 
