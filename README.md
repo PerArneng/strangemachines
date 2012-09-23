@@ -8,6 +8,19 @@ each state. Each state can have an implementation that is triggered when the sta
 is entered. It is also possible to have transition guards that can prevent a transition
 between two states.
 
+## Features
+
+### GraphViz Export
+For debugging purpouse it is nice to see a visual representation of the state machine. With
+Strange Machines it is possible to export the state machine to a [GrapViz](http://http://www.graphviz.org/)
+compatible drawing. GraphViz uses a text representation of graphs to render images.
+
+If you do not have GraphViz installed you can copy the GraphViz text and render the image
+at this [place](http://sandbox.kidstrythisathome.com/erdos/index.html).
+
+Example rendered state machine from the Login Demo:
+![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/login_demo.png)
+
 ## Examples
 
 ### Hello World
@@ -52,6 +65,9 @@ as anonymous inner classes.
 
         // and finaly print out the state machine as graphviz format
         StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
+
+The above program will also produce the following grapghviz diagram:
+![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/hello_world.png)
 
 ## Current State
 
