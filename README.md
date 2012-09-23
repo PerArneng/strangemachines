@@ -1,4 +1,7 @@
+# Strange Machines
+
 **Table Of Contents**
+* [About](https://github.com/PerArneng/strangemachines#about)
 * [Interesting Features](https://github.com/PerArneng/strangemachines#interesting-features)
 * [Examples](https://github.com/PerArneng/strangemachines#examples)
 * [Building](https://github.com/PerArneng/strangemachines#building)
@@ -6,7 +9,8 @@
 * [Author(s)](https://github.com/PerArneng/strangemachines#authors)
 * [License](https://github.com/PerArneng/strangemachines#license)
 
-# Strange Machines
+
+## About
 
 Strange Machines is a Java library for working with state machines. State machines can
 be useful when working with asynchronous events, parsing or games.
@@ -40,6 +44,11 @@ Example rendered state machine from the Login Demo:
 * More demos
 
 ## Examples
+
+Here are some(one) example of how to use the state machine. For more examples look in the source code
+for [tests](https://github.com/PerArneng/strangemachines/tree/master/src/test/java/com/scalebit/strangemachines)
+and [demos](https://github.com/PerArneng/strangemachines/tree/master/src/main/java/com/scalebit/strangemachines/demos)
+in this repository.
 
 ### Hello World
 The following example makes "Hello, World!" look very massive. But the % of boilerplate
