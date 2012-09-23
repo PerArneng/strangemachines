@@ -47,6 +47,7 @@ Example rendered state machine from the Login Demo:
 * Better documentation
 * More unit tests
 * More demos
+* Threadsafety
 
 ## Examples
 
