@@ -8,11 +8,13 @@ each state. Each state can have an implementation that is triggered when the sta
 is entered. It is also possible to have transition guards that can prevent a transition
 between two states.
 
+**Note:** *This project is still under development so expect to see bugs and API changes*
+
 ## Interesting Features
 
 ### GraphViz Export
 For debugging purpouse it is nice to see a visual representation of the state machine. With
-Strange Machines it is possible to export the state machine to a [GrapViz](http://http://www.graphviz.org/)
+Strange Machines it is possible to export the state machine to a [GrapViz](http://www.graphviz.org/)
 compatible drawing. GraphViz uses a text representation of graphs to render images.
 
 If you do not have GraphViz installed you can copy the GraphViz text and render the image
@@ -76,12 +78,6 @@ as anonymous inner classes.
 The above program will also produce the following grapghviz diagram:
 
 ![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/hello_world.png)
-
-## Current State
-
-This project is under development so it is not stable enough for production use. There
-are a lot of tests missing and it there are some demos that needs to be written to test
-the API.
 
 ## Building
 
