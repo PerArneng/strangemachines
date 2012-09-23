@@ -8,7 +8,7 @@ each state. Each state can have an implementation that is triggered when the sta
 is entered. It is also possible to have transition guards that can prevent a transition
 between two states.
 
-## Features
+## Interesting Features
 
 ### GraphViz Export
 For debugging purpouse it is nice to see a visual representation of the state machine. With
@@ -20,6 +20,13 @@ at this [place](http://sandbox.kidstrythisathome.com/erdos/index.html).
 
 Example rendered state machine from the Login Demo:
 ![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/login_demo.png)
+
+## Missing Features
+
+* Data object that is transferred between the states and transition guards
+* Better documentation
+* More unit tests
+* More demos
 
 ## Examples
 
@@ -75,14 +82,6 @@ The above program will also produce the following grapghviz diagram:
 This project is under development so it is not stable enough for production use. There
 are a lot of tests missing and it there are some demos that needs to be written to test
 the API.
-
-### Missing Features
-
-* GraphViz export of a state machine to be able to visually inspect it
-* Data object that is transferred between the states and transition guards
-* Better documentation
-* More unit tests
-* More demos
 
 ## Building
 
