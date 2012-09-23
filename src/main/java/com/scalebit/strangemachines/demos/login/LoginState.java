@@ -20,7 +20,7 @@
    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 package com.scalebit.strangemachines.demos.login;
 
-public enum LoginState {
+enum LoginState {
     ASK_FOR_USERNAME,
     INVALID_USERNAME,
     ASK_FOR_PASSWORD,

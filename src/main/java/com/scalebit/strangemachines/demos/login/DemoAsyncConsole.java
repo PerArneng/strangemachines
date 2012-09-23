@@ -27,7 +27,7 @@ import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class AsyncConsole implements Runnable {
+class DemoAsyncConsole implements Runnable {
 
     private final BlockingQueue<String> queue = new ArrayBlockingQueue<String>(100);
     private Thread internalThread;
@@ -48,7 +48,7 @@ public class AsyncConsole implements Runnable {
 
                if ((new Random(System.currentTimeMillis())).nextInt(Integer.MAX_VALUE) % 3 == 0) {
                    for (AsyncConsoleListener l : listeners) {
-                       l.onError("io exception occurred");
+                       l.onError("export exception occurred");
                    }
                    continue;
                }

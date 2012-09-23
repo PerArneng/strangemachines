@@ -24,11 +24,13 @@ package com.scalebit.strangemachines.demos.login;
 import com.scalebit.strangemachines.StateHandler;
 import com.scalebit.strangemachines.StateMachine;
 import com.scalebit.strangemachines.StateMachineFactory;
+import com.scalebit.strangemachines.export.ExportFormat;
+import com.scalebit.strangemachines.export.StateMachineExport;
 
-public class LoginDemo implements AsyncConsole.AsyncConsoleListener {
+public class LoginDemo implements DemoAsyncConsole.AsyncConsoleListener {
 
     private final StateMachine<LoginState> sm;
-    private final AsyncConsole console = new AsyncConsole();
+    private final DemoAsyncConsole console = new DemoAsyncConsole();
 
     public LoginDemo() {
         sm = StateMachineFactory.createDefault(LoginState.class);
@@ -45,6 +47,7 @@ public class LoginDemo implements AsyncConsole.AsyncConsoleListener {
         sm.addTransition(LoginState.ASK_FOR_PASSWORD, LoginState.IO_ERROR);
         sm.addTransition(LoginState.ASK_FOR_USERNAME, LoginState.IO_ERROR);
         sm.addTransition(LoginState.IO_ERROR, LoginState.END_STATE);
+
     }
 
     public static void main(String[] args) {
@@ -52,6 +55,9 @@ public class LoginDemo implements AsyncConsole.AsyncConsoleListener {
         LoginDemo demo = new LoginDemo();
         demo.console.start();
         demo.console.addListener(demo);
+
+        System.out.println("printing the state machine as graphviz format first");
+        StateMachineExport.export(ExportFormat.GRAPHVIZ, demo.sm, System.out);
 
         demo.sm.transition(LoginState.ASK_FOR_USERNAME);
 
@@ -78,7 +84,7 @@ public class LoginDemo implements AsyncConsole.AsyncConsoleListener {
 
         @Override
         public void onEnter(StateMachine<LoginState> stateMachine, LoginState source, LoginState target) {
-            System.out.println("an io error occurred");
+            System.out.println("an export error occurred");
             sm.transition(LoginState.END_STATE);
         }
 

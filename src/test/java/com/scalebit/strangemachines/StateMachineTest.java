@@ -20,6 +20,8 @@
    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 package com.scalebit.strangemachines;
 
+import com.scalebit.strangemachines.export.ExportFormat;
+import com.scalebit.strangemachines.export.StateMachineExport;
 import org.junit.Test;
 
 public class StateMachineTest {
@@ -29,7 +31,7 @@ public class StateMachineTest {
    }
 
    @Test
-   public void test() {
+   public void test1NormalTwoStates() {
        final StateMachine<Test1Enum> sm = StateMachineFactory.createDefault(Test1Enum.class);
        sm.addState(Test1Enum.STATE1, new StateHandler<Test1Enum>() {
            @Override
@@ -51,4 +53,49 @@ public class StateMachineTest {
        sm.transition(Test1Enum.STATE2);
 
    }
+
+    enum HelloWorldState { HELLO, WORLD};
+
+    @Test
+    public void test2HelloWorld() {
+
+        // create the statemachine and incidate that you want to
+        // use HelloWorldState enum as state keys
+        StateMachine<HelloWorldState> sm =
+                  StateMachineFactory.createDefault(HelloWorldState.class);
+
+        // add the hello state with a handler
+        sm.addState(HelloWorldState.HELLO, new StateHandler<HelloWorldState>() {
+            public void onEnter(StateMachine<HelloWorldState> stateMachine,
+                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                System.out.print("Hello, ");
+
+                // make the state machine transition to the world state
+                stateMachine.transition(HelloWorldState.WORLD);
+            }
+        });
+
+        // add the second world state
+        sm.addState(HelloWorldState.WORLD, new StateHandler<HelloWorldState>() {
+            public void onEnter(StateMachine<HelloWorldState> stateMachine,
+                                    HelloWorldState sourceState, HelloWorldState currentState) {
+                System.out.println("World!");
+            }
+        });
+
+        // add a transition between HELLO and WORLD
+        sm.addTransition(HelloWorldState.HELLO, HelloWorldState.WORLD);
+
+        // start by transitioning to HELLO, HELLO is set as the start
+        // state since it was added first. It is possible to set other
+        // start states afterwards. Any illegal transitions will cause
+        // a TransitionException to be thrown
+        sm.transition(HelloWorldState.HELLO);
+
+        // this will print Hello, World! in to the shell/console/dosprompt
+
+        // and finaly print out the state machine as graphviz format
+        StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
+
+    }
 }
