@@ -18,23 +18,17 @@
    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
-package com.scalebit.strangemachines.impl.simple;
+package com.scalebit.strangemachines.impl.basic;
 
-import com.scalebit.strangemachines.StateHandler;
-import com.scalebit.strangemachines.StateMachine;
-import com.scalebit.strangemachines.TransitionException;
-import com.scalebit.strangemachines.TransitionGuard;
+import com.scalebit.strangemachines.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class SimpleStateMachine<E extends Enum<E>> implements StateMachine<E> {
+public class BasicStateMachine<E extends Enum<E>> implements StateMachine<E> {
 
-    private E startState;
-    private E currentState;
-    private Map<E, StateHandler<E>> states = new HashMap<E, StateHandler<E>>();
+    private State<E> startState;
+    private State<E> currentState;
+    private Map<E, State<E>> states = new HashMap<E, State<E>>();
     private Map<Long, List<TransitionGuard<E>>> transitions = new HashMap<Long, List<TransitionGuard<E>>>();
 
     @Override
@@ -48,28 +42,30 @@ public class SimpleStateMachine<E extends Enum<E>> implements StateMachine<E> {
 
     @Override
     public void setStartState(E state) {
-        this.startState = state;
+        this.startState = this.states.get(state);
     }
 
     @Override
     public void setCurrentState(E state) {
-        this.currentState = state;
+        this.currentState = this.states.get(state);
     }
 
     @Override
     public boolean isCurrentState(E state) {
-        return this.currentState == state;
+        return this.currentState == this.states.get(state);
     }
 
     @Override
     public void addState(E state) {
-        this.addState(state, EMPTY_HANDLER);
+        this.addState(state, null);
     }
 
     @Override
     public void addState(E state, StateHandler<E> stateHandler) {
 
-        this.states.put(state, stateHandler);
+        BasicState<E> basicState = new BasicState<E>(state, stateHandler);
+
+        this.states.put(state, basicState);
 
         if (this.startState == null) {
             this.setStartState(state);
@@ -78,12 +74,13 @@ public class SimpleStateMachine<E extends Enum<E>> implements StateMachine<E> {
 
     @Override
     public void removeStateHandler(E state) {
-        this.states.put(state, EMPTY_HANDLER);
+        this.setStateHandler(state, null);
     }
 
     @Override
     public void setStateHandler(E state, StateHandler<E> stateHandler) {
-        this.addState(state, stateHandler);
+        BasicState<E> basicState = (BasicState<E>) this.states.get(state);
+        basicState.setStateHandler(null);
     }
 
     @Override
@@ -113,55 +110,76 @@ public class SimpleStateMachine<E extends Enum<E>> implements StateMachine<E> {
     }
 
     @Override
-    public void transition(E targetState) {
+    public void transition(E targetStateKey) {
 
-        if (targetState == null) {
-            throw new IllegalArgumentException("targetState can not be null");
-        }
-
-        if (!states.containsKey(targetState)) {
-            throw new IllegalStateException("The state is not a part of this state machine: " + targetState);
-        }
+        State<E> targetState = this.getStateFromKey(targetStateKey);
 
         if (currentState == null) {
+            // first time we start the machine
 
             if (targetState != this.startState) {
+                // first time but we are not transitioning to the start state
                 throw new IllegalStateException("the first transition must be to the start state '" +
-                                                 this.startState + "' not '" + targetState + "'");
+                                                 this.startState + "' not '" + targetStateKey + "'");
             } else {
+               // set the current state to the start state and then
+               // execute the state handler if it has one
                this.currentState = this.startState;
-               this.states.get(this.startState).onEnter(this, null);
+               if (this.startState.hasStateHandler()) {
+                   this.startState.getStateHandler().onEnter(this, null);
+               }
             }
 
         } else {
-            this.ensureTransitionExists(this.currentState, targetState);
-            this.ensureGuardsAllowTransition(this.currentState, targetState);
+            this.ensureTransitionExists(this.currentState.getState(), targetState.getState());
+            this.ensureGuardsAllowTransition(this.currentState.getState(), targetState.getState());
 
-            E sourceState = this.currentState;
+            State<E> sourceState = this.currentState;
             this.currentState = targetState;
-            this.states.get(targetState).onEnter(this, sourceState);
+            if (targetState.hasStateHandler()) {
+                targetState.getStateHandler().onEnter(this, sourceState.getState());
+            }
         }
+    }
+
+    private State<E> getStateFromKey(E stateKey) {
+        if (stateKey == null) {
+            throw new IllegalArgumentException("stateKey can not be null");
+        }
+
+        State<E> state = this.states.get(stateKey);
+
+        if (state == null) {
+            throw new IllegalStateException("The state is not a part of this state machine: " + stateKey);
+        }
+
+        return state;
+    }
+
+
+    @Override
+    public Set<State<E>> inspect() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private void ensureTransitionExists(E sourceState, E targetState) {
         long transitionId = generateTransitionID(sourceState, targetState);
         if (!this.transitions.containsKey(transitionId)) {
-            throw new TransitionException(this.currentState, targetState, "the state " + currentState +
+            throw new TransitionException(this.currentState.getState(), targetState, "the state " + currentState +
                     " does not have a transition to the state " + targetState);
         }
     }
 
     private void ensureGuardsAllowTransition(E sourceState, E targetState) {
-        List<TransitionGuard<E>> transitionGuards = this.transitions.get(generateTransitionID(sourceState, targetState));
+        List<TransitionGuard<E>> transitionGuards =
+                                   this.transitions.get(generateTransitionID(sourceState, targetState));
         for (TransitionGuard guard : transitionGuards) {
-            if (!guard.transitionValid(currentState, targetState)) {
-                throw new TransitionException(currentState, targetState, "The guard " + guard + " prevented it");
+            if (!guard.transitionValid(currentState.getState(), targetState)) {
+                throw new TransitionException(currentState.getState(),
+                                                targetState, "The guard " + guard + " prevented it");
             }
         }
     }
 
-    private final StateHandler<E> EMPTY_HANDLER = new StateHandler<E>() {
-        @Override
-        public void onEnter(StateMachine<E> stateMachine, E sourceState) { }
-    };
+
 }

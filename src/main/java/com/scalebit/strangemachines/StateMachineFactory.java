@@ -21,12 +21,12 @@
 package com.scalebit.strangemachines;
 
 
-import com.scalebit.strangemachines.impl.simple.SimpleStateMachine;
+import com.scalebit.strangemachines.impl.basic.BasicStateMachine;
 
 public class StateMachineFactory {
 
     public static <E extends Enum<E>> StateMachine<E> createDefault(Class<E> clazz) {
-        return new SimpleStateMachine<E>();
+        return new BasicStateMachine<E>();
     }
 
 }

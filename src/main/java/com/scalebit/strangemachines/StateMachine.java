@@ -21,26 +21,30 @@
 package com.scalebit.strangemachines;
 
 
+import java.util.Set;
+
 public interface StateMachine<E extends Enum<E>> {
 
     void reset();
 
-    void setStartState(E state);
+    void setStartState(E stateKey);
 
-    void setCurrentState(E state);
+    void setCurrentState(E stateKey);
 
-    boolean isCurrentState(E state);
+    boolean isCurrentState(E stateKey);
 
-    void addState(E state);
+    void addState(E stateKey);
 
-    void addState(E state, StateHandler<E> stateHandler);
+    void addState(E stateKey, StateHandler<E> stateHandler);
 
-    void removeStateHandler(E state);
+    void removeStateHandler(E stateKey);
 
-    void setStateHandler(E state, StateHandler<E> stateHandler);
+    void setStateHandler(E stateKey, StateHandler<E> stateHandler);
 
-    void addTransition(E sourceState, E targetState, TransitionGuard<E>... guards);
+    void addTransition(E sourceStateKey, E targetStateKey, TransitionGuard<E>... guards);
 
-    void transition(E targetState);
+    void transition(E targetStateKey);
+
+    Set<State<E>> inspect();
 
 }
