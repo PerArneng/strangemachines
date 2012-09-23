@@ -5,9 +5,9 @@ import java.util.Set;
 
 public interface State<E extends Enum<E>> {
 
-    E getState();
+    E getStateKey();
 
-    Set<E> getTransitions();
+    Set<Transition<E>> getTransitions();
 
     StateHandler<E> getStateHandler();
 
