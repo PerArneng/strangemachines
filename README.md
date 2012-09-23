@@ -21,6 +21,7 @@ If you do not have GraphViz installed you can copy the GraphViz text and render 
 at this [place](http://sandbox.kidstrythisathome.com/erdos/index.html).
 
 Example rendered state machine from the Login Demo:
+
 ![Hello, World! GraphViz image](https://raw.github.com/PerArneng/strangemachines/master/docs/images/login_demo.png)
 
 ## Missing Features
