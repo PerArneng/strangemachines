@@ -57,6 +57,7 @@ The following example makes "Hello, World!" look very massive. But the % of boil
 code will be less in larger programs. You would probably not implement your state handlers
 as anonymous inner classes.
 
+```java
         // create the statemachine and incidate that you want to
         // use HelloWorldState enum as state keys
         StateMachine<HelloWorldState> sm =
@@ -94,6 +95,7 @@ as anonymous inner classes.
 
         // and finaly print out the state machine as graphviz format
         StateMachineExport.export(ExportFormat.GRAPHVIZ, sm, System.out);
+```
 
 The above program will also produce the following grapghviz diagram:
 
@@ -103,7 +105,9 @@ The above program will also produce the following grapghviz diagram:
 
 The project is built with maven so the following is used to invoke a build with maven
 
-    $ mvn install
+```bash
+$ mvn install
+```
 
 ## Demos
 
